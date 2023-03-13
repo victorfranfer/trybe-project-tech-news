@@ -1,11 +1,27 @@
-# Requisito 1 - initial commit
+import requests
+from parsel import Selector
+from time import sleep
+
+
+# Requisito 1
 def fetch(url):
-    """Seu código deve vir aqui"""
+    user_agent = {"user-agent": "Fake user-agent"}
+    kwargs = {"url": url, "timeout": 3, "headers": user_agent}
+    try:
+        page = requests.get(**kwargs)
+        sleep(1)
+        if page.status_code != 200:
+            return None
+        return page.text
+    except requests.exceptions.RequestException:
+        return None
 
 
 # Requisito 2
 def scrape_updates(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    updates = selector.css(".entry-title > a::attr(href)").getAll()
+    return updates
 
 
 # Requisito 3
