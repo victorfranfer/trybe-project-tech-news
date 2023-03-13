@@ -20,7 +20,7 @@ def fetch(url):
 # Requisito 2
 def scrape_updates(html_content):
     selector = Selector(html_content)
-    updates = selector.css(".entry-title > a::attr(href)").getAll()
+    updates = selector.css(".entry-title > a::attr(href)").getall()
     return updates
 
 
