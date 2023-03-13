@@ -70,7 +70,7 @@ def get_tech_news(amount):
     while counter < amount:
         response = fetch(URL_BASE)
         updates = scrape_updates(response)
-        
+
         for article in updates:
             response_fetch = fetch(article)
             data = scrape_news(response_fetch)
