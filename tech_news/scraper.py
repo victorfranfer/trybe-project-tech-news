@@ -2,10 +2,7 @@ import requests
 from parsel import Selector
 from time import sleep
 import re
-# from pymongo import MongoClient
-
-
-URL_BASE = "https://blog.betrybe.com/"
+from .database import create_news
 
 
 # Requisito 1
@@ -66,4 +63,21 @@ def scrape_news(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    URL_BASE = "https://blog.betrybe.com/"
+    news = []
+    counter = 0
+
+    while counter < amount:
+        response = fetch(URL_BASE)
+        updates = scrape_updates(response)
+        
+        for article in updates:
+            response_fetch = fetch(article)
+            data = scrape_news(response_fetch)
+            news.append(data)
+            counter += 1
+            if counter == amount:
+                break
+        URL_BASE = scrape_next_page_link(response)
+    create_news(news)
+    return news
