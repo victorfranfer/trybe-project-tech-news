@@ -3,6 +3,9 @@ from parsel import Selector
 from time import sleep
 
 
+URL_BASE = "https://blog.betrybe.com/"
+
+
 # Requisito 1
 def fetch(url):
     user_agent = {"user-agent": "Fake user-agent"}
@@ -26,7 +29,13 @@ def scrape_updates(html_content):
 
 # Requisito 3
 def scrape_next_page_link(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(html_content)
+    response = selector.css(".next::attr(href)").get()
+
+    if not response:
+        return None
+    
+    return response
 
 
 # Requisito 4
