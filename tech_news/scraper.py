@@ -1,6 +1,8 @@
 import requests
 from parsel import Selector
 from time import sleep
+import re
+# from pymongo import MongoClient
 
 
 URL_BASE = "https://blog.betrybe.com/"
@@ -33,13 +35,33 @@ def scrape_next_page_link(html_content):
     response = selector.css(".next::attr(href)").get()
 
     if not response:
-        return None 
+        return None
     return response
 
 
 # Requisito 4
 def scrape_news(html_content):
-    """Seu código deve vir aqui"""
+    url = Selector(html_content).css("link[rel='canonical']::attr(href)").get()
+    title = Selector(html_content).css(".entry-title::text").get().strip()
+    timestamp = Selector(html_content).css(".meta-date::text").get()
+    writer = Selector(html_content).css(".url.fn.n::text").get()
+    reading_time_string = (
+        Selector(html_content).css(".meta-reading-time::text").get()
+    )
+    reading_time = int(re.sub("[^0-9]", "", reading_time_string))
+    summary = (
+        Selector(html_content).xpath("//p").xpath("string()").get().strip()
+    )
+    category = Selector(html_content).css(".meta-category .label::text").get()
+    return {
+        "url": url,
+        "title": title,
+        "timestamp": timestamp,
+        "writer": writer,
+        "reading_time": reading_time,
+        "summary": summary,
+        "category": category,
+    }
 
 
 # Requisito 5
