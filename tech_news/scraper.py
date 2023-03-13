@@ -33,8 +33,7 @@ def scrape_next_page_link(html_content):
     response = selector.css(".next::attr(href)").get()
 
     if not response:
-        return None
-    
+        return None 
     return response
 
 
