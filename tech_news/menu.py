@@ -3,7 +3,6 @@ from tech_news.scraper import get_tech_news
 from tech_news.analyzer.search_engine import (
     search_by_title, search_by_date, search_by_category)
 from tech_news.analyzer.ratings import top_5_categories
-# from time import sleep
 
 
 # Requisitos 11 e 12
